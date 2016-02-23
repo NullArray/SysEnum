@@ -1,5 +1,5 @@
 # SysEnum
-Simple Bash script to retrieve basic system information including but not limited to; current user, IP Configuration, ARP table and running processes.
+Simple Bash script to retrieve basic system information including but not limited to; current user, IP Configuration, ARP table and running processes. Will be expanded on with additional functionality in the future.
 
 # Usage
 The script takes two arguments.
