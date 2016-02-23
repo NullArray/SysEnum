@@ -7,12 +7,12 @@ The script takes two arguments.
 ```
 SysEnum.sh -print
 ```
-Will print the retrieved information to the terminal and;
+Will print the retrieved information to the terminal.
 
 ```
 SysEnum.sh -dump /example/path/output.txt
 ```
-
+And this will dump your output to a location of your sepcification
 
 # Note
 I realize having to pass an argument to dump output to an outfile is a little redundant since usually we'd just ```>>``` append to a textfile but as i may expand on this script in the future i might want to add more arguments to only dump or print specific portions of the retrieved information. Basically i just wrote this part quickly with the idea in mind of later making it so that it enumerates selected components.
