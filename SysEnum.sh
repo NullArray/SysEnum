@@ -1,87 +1,74 @@
 #!/bin/bash
 
-VAR=$1
-VAR2=$2
-
-# If no args, simple usage will be printed.
-if [ "$VAR" == ""  ]
-then
-	echo ""
-	echo "This script prints system information to the terminal if -print argument is specified.
+function main()
+{	printf "\nThis script enumerates system information and appends it to a textfile.\n"
+	printf "\nThese items will be enumerated: 
 	
-To dump output to a text file instead specify -dump argument and path e.g. sysinfo.sh -dump /tmp/output.txt"
-
-# If -print arg has been passed we print sysinfo to STDOUT.
-else
-	if [ "$VAR" == "-print"  ]
-	then
-		echo "" 
-		echo "Current user is : "
-		`printf "\n %s %s" whoami`
-		echo ""
-		echo "Current user ID is : "
-		`printf "\n %s %s" id bin`
-		echo "" 
-		echo "User login history is : "
-		`printf "\n %s %s" last`
-		echo "" 
-		echo "Current system is : "
-		`printf "\n %s %s" uname -a`
-		echo ""
-		echo "Current running processes are : "	
-		`printf "\n %s %s" ps -e`
-		echo ""
-		echo "Current IP configuration is : "
-		`printf "\n %s %s" ifconfig`
-		echo ""
-		echo "Current connected devices are : "
-		`printf "\n %s %s" arp -a`
-	
-	echo ""
-	echo "Done."
-	exit 1
-	# We check if -dump and path have been specified and if so we dump sysinfo to output file
+1. User IDs and login history.
+2. OS details and mounted disks.
+3. Network status and information.
+4. Running processes.\n\n"
+    
+    read -p 'Continue? Y/n : ' choice2
+    if [[ $choice2 == 'y' ]]; then
+		enum
 	else
-		if [ "$VAR" == "-dump"  ] 
-		then
-			if [ "$VAR2" == ""  ]
-			then
-				echo "No path specified"
-				exit 2
-			# Proper arguments are passed, print info to file, at path specified in $VAR2	
-			else
-				echo "Current user is : " >> $VAR2
-				`printf "\n %s %s" whoami` >> $VAR2
-				echo "" >> $VAR2
-				echo "Current user ID is : " >> $VAR2
-				`printf "\n %s %s" id bin ` >> $VAR2
-				echo "" >> $VAR2
-				echo "User login history is : " >> $VAR2
-				`printf "\n %s %s" last ` >> $VAR2
-				echo "" >> $VAR2
-				echo "Current system is : " >> $VAR2
-				`printf "\n %s %s" uname -a` >> $VAR2
-				echo "" >> $VAR2
-				echo "Current running processes are : " >> $VAR2 
-				`printf "\n %s %s" ps -e` >> $VAR2
-				echo "" >> $VAR2
-				echo "Current IP configuration is : " >> $VAR2
-				`printf "\n %s %s" ifconfig` >> $VAR2
-				echo "" >> $VAR2
-				echo "Current connected devices are : " >> $VAR2
-				`printf "\n %s %s" arp -a` >> $VAR2
-				echo "Output dumped to $2"
-	    	fi	
-			exit 4
-		else
-			echo "Invalid argument specified"
-			exit 3
-		fi
+		echo "Aborted"
+		exit 1
 	fi
+}
+
+
+function enum()
+{	printf "\n\nPlease provide a path to which the output will be saved. I.e /tmp/output.txt\n"
+	read -p 'Path? : ' outfile
+		
+	echo "+-+-+-+-+" | tee -a $outfile 1>&2
+	echo "|L|O|G|S|" | tee -a $outfile 1>&2
+	echo "+-+-+-+-+" | tee -a $outfile 1>&2
+		
+	printf "\n\nUser IDs\n" | tee -a $outfile 1>&2
+		
+	id | tee -a $outfile 1>&2
+	printf "\n\n" | tee -a $outfile 1>&2
+	last | tee -a $outfile 1>&2
+	sleep 0.5 && clear
+		
+	printf "\n\nOS details and mounted disks\n\n" | tee -a $outfile 1>&2
+		
+	uname -a | tee -a $outfile 1>&2
+	printf "\n\n" | tee -a $outfile 1>&2
+	df -h | tee -a $outfile 1>&2
+	sleep 0.5 && clear
+		
+	printf "\n\nNetwork status & info\n\n" | tee -a $outfile 1>&2
+		
+	ifconfig -a | tee -a $outfile 1>&2
+	printf "\n\n" | tee -a $outfile 1>&2
+	netstat -ap | tee -a $outfile 1>&2
+	sleep 0.5 && clear
+		
+	printf "\n\nProcess info\n\n" | tee -a $outfile 1>&2
+		
+	ps -d -f | tee -a $outfile 1>&2
+	sleep 0.5 && clear
+		
+	echo "Done, output saved to $outfile"
+	exit 1
+}		
+		
+
+if [[ "$EUID" -ne 0 ]]; then
+   echo "It is recommended that this script is run as root"
+   printf "\nRunning it without super user privilege will affect the results\n"
+   
+   read -p 'Continue without root? Y/n : ' choice1
+   if [[ $choice1 == 'y' ]]; then
+       main
+   else
+       echo "Aborted"
+       exit 1
+   fi
+else
+	main
 fi
-exit 5
-
-
-
-
-
