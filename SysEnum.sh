@@ -10,7 +10,6 @@ then
 	echo "This script prints system information to the terminal if -print argument is specified.
 	
 To dump output to a text file instead specify -dump argument and path e.g. sysinfo.sh -dump /tmp/output.txt"
-fi
 
 # If -print arg has been passed we print sysinfo to STDOUT.
 else
