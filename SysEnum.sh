@@ -40,7 +40,9 @@ function enum()
 	uname -a | tee -a $outfile 1>&2
 	printf "\n\n" | tee -a $outfile 1>&2
 	df -h | tee -a $outfile 1>&2
-	sleep 0.5 && clear
+	printf "\n\n Installed kernels\n" | tee -a $outfile 1>&2
+	dpkg -l linux-image-\* | grep ^ii | tee -a $outfile 1>&2
+        sleep 0.5 && clear
 		
 	printf "\n\nNetwork status & info\n\n" | tee -a $outfile 1>&2
 		
@@ -63,7 +65,7 @@ function enum()
 
 if [[ "$EUID" -ne 0 ]]; then
    echo "It is recommended that this script is run as root"
-   printf "\nRunning it without super user privilege will may affect the results\n"
+   printf "\nRunning it without super user privilege may affect the results\n"
    
    read -p 'Continue without root? Y/n : ' choice1
    if [[ $choice1 == 'y' ]]; then
