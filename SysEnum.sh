@@ -28,7 +28,8 @@ function enum()
 	echo "+-+-+-+-+" | tee -a $outfile 1>&2
 		
 	printf "\n\nUser IDs\n" | tee -a $outfile 1>&2
-		
+	whoami | tee -a $outfile 1>&2
+	printf "\n\n" | tee -a $outfile 1>&2	
 	id | tee -a $outfile 1>&2
 	printf "\n\n" | tee -a $outfile 1>&2
 	last | tee -a $outfile 1>&2
@@ -45,6 +46,8 @@ function enum()
 		
 	ifconfig -a | tee -a $outfile 1>&2
 	printf "\n\n" | tee -a $outfile 1>&2
+	arp -a | tee -a $outfile 1>&2
+	printf "\n\n" | tee -a $outfile 1>&2
 	netstat -ap | tee -a $outfile 1>&2
 	sleep 0.5 && clear
 		
@@ -60,7 +63,7 @@ function enum()
 
 if [[ "$EUID" -ne 0 ]]; then
    echo "It is recommended that this script is run as root"
-   printf "\nRunning it without super user privilege will affect the results\n"
+   printf "\nRunning it without super user privilege will may affect the results\n"
    
    read -p 'Continue without root? Y/n : ' choice1
    if [[ $choice1 == 'y' ]]; then
@@ -72,3 +75,6 @@ if [[ "$EUID" -ne 0 ]]; then
 else
 	main
 fi
+
+
+	
