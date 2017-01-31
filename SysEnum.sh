@@ -48,7 +48,7 @@ function enum()
 		
 	ifconfig -a | tee -a $outfile 1>&2
 	printf "\n\n" | tee -a $outfile 1>&2
-	arp -a | tee -a $outfile 1>&2
+	arp -e | tee -a $outfile 1>&2
 	printf "\n\n" | tee -a $outfile 1>&2
 	netstat -atp | tee -a $outfile 1>&2
 	sleep 0.5 && clear
