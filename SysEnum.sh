@@ -15,7 +15,7 @@ function main()
 	else
 		echo "Aborted"
 		exit 1
-	fi
+    fi
 }
 
 
