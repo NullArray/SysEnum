@@ -50,7 +50,7 @@ function enum()
 	printf "\n\n" | tee -a $outfile 1>&2
 	arp -a | tee -a $outfile 1>&2
 	printf "\n\n" | tee -a $outfile 1>&2
-	netstat -ap | tee -a $outfile 1>&2
+	netstat -atp | tee -a $outfile 1>&2
 	sleep 0.5 && clear
 		
 	printf "\n\nProcess info\n\n" | tee -a $outfile 1>&2
