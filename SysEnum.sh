@@ -29,7 +29,10 @@ function enum()
 		
 	printf "\n\nUser IDs\n" | tee -a $outfile 1>&2
 	whoami | tee -a $outfile 1>&2
-	printf "\n\n" | tee -a $outfile 1>&2	
+	printf "\n\n" | tee -a $outfile 1>&2
+	printf "\n Host name:" | tee -a $outfile 1>&2
+	cat /etc/hostname | tee -a $outfile 1>&2
+	printf "\n\n" | tee -a $outfile 1>&2
 	id | tee -a $outfile 1>&2
 	printf "\n\n" | tee -a $outfile 1>&2
 	last | tee -a $outfile 1>&2
@@ -51,6 +54,10 @@ function enum()
 	arp -e | tee -a $outfile 1>&2
 	printf "\n\n" | tee -a $outfile 1>&2
 	netstat -atp | tee -a $outfile 1>&2
+	printf "\n\n" | tee -a $outfile 1>&2
+	iptables -L | tee -a $outfile 1>&2
+	printf "\n\n" | tee -a $outfile 1>&2
+	cat /etc/hosts | tee -a 1>&2
 	sleep 0.5 && clear
 		
 	printf "\n\nProcess info\n\n" | tee -a $outfile 1>&2
