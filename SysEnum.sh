@@ -1,24 +1,6 @@
 #!/bin/bash
 
-function main()
-{	printf "\nThis script enumerates system information and appends it to a textfile.\n"
-	printf "\nThese items will be enumerated: 
-	
-1. User IDs and login history.
-2. OS details and mounted disks.
-3. Network status and information.
-4. Running processes.\n\n"
-    
-    read -p 'Continue? Y/n : ' choice2
-    if [[ $choice2 == 'y' ]]; then
-		enum
-	else
-		echo "Aborted"
-		exit 1
-    fi
-}
-
-
+# Enumeration function
 function enum()
 {	printf "\n\nPlease provide a path to which the output will be saved. I.e /tmp/output.txt\n"
 	read -p 'Path? : ' outfile
@@ -68,8 +50,27 @@ function enum()
 	echo "Done, output saved to $outfile"
 	exit 1
 }		
-		
 
+# Opening menu
+function main()
+{	printf "\nThis script enumerates system information and appends it to a textfile.\n"
+	printf "\nThese items will be enumerated: 
+	
+1. User IDs and login history.
+2. OS details and mounted disks.
+3. Network status and information.
+4. Running processes.\n\n"
+    
+    read -p 'Continue? Y/n : ' choice2
+    if [[ $choice2 == 'y' ]]; then
+		enum
+	else
+		echo "Aborted"
+		exit 1
+    fi
+}
+
+# Check to see if we're root
 if [[ "$EUID" -ne 0 ]]; then
    echo "It is recommended that this script is run as root"
    printf "\nRunning it without super user privilege may affect the results\n"
